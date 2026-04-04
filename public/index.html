@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ta">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>தமிழ்நாடு சைவ வேளாளர் சங்கம் - திருமண மேலாண்மை</title>
+    <script>
+      // Polyfill window.process for PramukhIME to detect Electron
+      if (typeof window.process === 'undefined') {
+        window.process = { 
+          versions: { 
+            electron: typeof window.electron !== 'undefined' && window.electron?.versions?.electron 
+              ? window.electron.versions.electron 
+              : '38.1.0' 
+          } 
+        };
+        console.log('[PramukhIME] Set window.process:', window.process);
+      }
+    </script>
+    <script src="./js/release/keymanweb.js"></script>
+    <script src='./js/release/kmwuitoggle.js'></script>
+    
+    <!-- CRITICAL: Comprehensive patch to prevent Keyman className.indexOf errors -->
+    <script>
+      (function() {
+        'use strict';
+        
+        // Strategy 1: Intercept MutationObserver to catch errors in callbacks
+        const OriginalMutationObserver = window.MutationObserver;
+        window.MutationObserver = function(callback) {
+          // Wrap the callback to catch className.indexOf errors
+          const wrappedCallback = function(mutations, observer) {
+            try {
+              return callback.call(this, mutations, observer);
+            } catch (error) {
+              // Catch the specific className.indexOf error
+              if (error && error.message && (
+                error.message.includes('indexOf') || 
+                error.message.includes('className') ||
+                error.message.includes('is not a function')
+              )) {
+                // Silently suppress - this is Keyman trying to check className on Material-UI elements
+                console.debug('[Keyman Patch] Suppressed className error in MutationObserver:', error.message);
+                return;
+              }
+              // Re-throw other errors
+              throw error;
+            }
+          };
+          
+          const observer = new OriginalMutationObserver(wrappedCallback);
+          return observer;
+        };
+        // Copy prototype
+        window.MutationObserver.prototype = OriginalMutationObserver.prototype;
+        window.MutationObserver.prototype.constructor = window.MutationObserver;
+        
+        // Strategy 2: Patch className to ALWAYS return string, using classList as source of truth
+        try {
+          // Force className to always use classList
+          const classNameDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'className') ||
+                                     Object.getOwnPropertyDescriptor(Element.prototype, 'className');
+          
+          if (classNameDescriptor) {
+            const originalGet = classNameDescriptor.get;
+            const originalSet = classNameDescriptor.set;
+            
+            Object.defineProperty(HTMLElement.prototype, 'className', {
+              get: function() {
+                // ALWAYS use classList - it's the source of truth and always a DOMTokenList
+                if (this.classList) {
+                  return Array.from(this.classList).join(' ');
+                }
+                // Fallback to original if classList doesn't exist (shouldn't happen)
+                if (originalGet) {
+                  const val = originalGet.call(this);
+                  return typeof val === 'string' ? val : '';
+                }
+                return '';
+              },
+              set: function(value) {
+                // Convert to string first
+                let strValue = '';
+                if (typeof value === 'string') {
+                  strValue = value;
+                } else if (value != null) {
+                  // Handle object className
+                  strValue = String(value);
+                }
+                
+                // Use classList to set (most reliable)
+                if (this.classList) {
+                  // Clear and set new classes
+                  this.classList.value = strValue;
+                } else if (originalSet) {
+                  originalSet.call(this, strValue);
+                } else {
+                  this.setAttribute('class', strValue);
+                }
+              },
+              configurable: true,
+              enumerable: true
+            });
+          }
+        } catch (e) {
+          console.warn('[Keyman Patch] Could not patch HTMLElement.className:', e);
+        }
+        
+        // Strategy 3: Patch String.prototype.indexOf to be safe (defensive)
+        // This prevents errors if something calls indexOf on a non-string
+        const originalIndexOf = String.prototype.indexOf;
+        String.prototype.indexOf = function(searchValue, fromIndex) {
+          // If this is not a string, convert it
+          if (typeof this !== 'string') {
+            const str = String(this);
+            return originalIndexOf.call(str, searchValue, fromIndex);
+          }
+          return originalIndexOf.call(this, searchValue, fromIndex);
+        };
+        
+        // Strategy 4: Patch Element.getAttribute to normalize className access
+        const originalGetAttribute = Element.prototype.getAttribute;
+        Element.prototype.getAttribute = function(name) {
+          if (name === 'class' || name === 'className') {
+            // Always return string from classList
+            if (this.classList) {
+              return Array.from(this.classList).join(' ');
+            }
+          }
+          return originalGetAttribute.call(this, name);
+        };
+        
+        console.log('[Keyman Patch] ✅ Comprehensive patches applied');
+      })();
+    </script>
+    
+    <script>
+      (function() {
+        // Wait for Keyman to be ready
+        function initKeyman() {
+          if (typeof keyman === 'undefined') {
+            setTimeout(initKeyman, 50);
+            return;
+          }
+          
+          // Initialize Keyman
+          keyman.init({attachType:'manual'});
+          
+          // Wait for keyman to be fully initialized before loading keyboard
+          const waitForKeymanReady = () => {
+            console.log('[Keyman] Checking if keyman is fully initialized...');
+            
+            // vmtamil.js needs both 'keyman' and 'KeymanWeb' to be defined
+            if (typeof window.keyman !== 'undefined' && typeof window.KeymanWeb !== 'undefined' && window.KeymanWeb.KR) {
+              console.log('[Keyman] ✅ Keyman is ready, registering vmtamil...');
+              loadKeyboard();
+            } else {
+              console.log('[Keyman] ⏳ Keyman not ready yet, waiting...');
+              setTimeout(waitForKeymanReady, 100);
+            }
+          };
+          
+          const loadKeyboard = () => {
+            console.log('[Keyman] Registering Tamil keyboard via keyman.addKeyboards');
+            
+            // MUST MATCH EXACTLY what is in vmtamil.js
+            // KI="Keyboard_vm_tamil_typewriter"
+            // KN="Tamil Typewriter (Visual Media)"
+            const keyboardSpec = {
+              name: 'Tamil Typewriter (Visual Media)',
+              id: 'Keyboard_vm_tamil_typewriter',
+              filename: './js/vmtamil.js',
+              version: '1.0',
+              language: [{
+                name: 'Tamil',
+                id: 'ta',
+                region: 'asia'
+              }]
+            };
+            
+            try {
+              const addResult = keyman.addKeyboards(keyboardSpec);
+              console.log('[Keyman] keyman.addKeyboards result:', addResult);
+            } catch (error) {
+              console.error('[Keyman] ❌ keyman.addKeyboards failed:', error);
+            }
+            
+            console.log('[Keyman] Waiting for keyboard registration...');
+            
+            let attempts = 0;
+            const maxAttempts = 100;
+            
+            function waitForKeyboard() {
+              attempts++;
+              
+              try {
+                const keyboards = keyman.getKeyboards();
+                
+                if (attempts === 1 || attempts % 10 === 0) {
+                  console.log(`[Keyman] Attempt ${attempts}/${maxAttempts} - Available keyboards:`, keyboards.length, keyboards.map(k => k.InternalName || k.Name));
+                }
+                
+                const tamilKeyboard = keyboards.find(keyboard => {
+                  const langCode = keyboard.LanguageCode || '';
+                  const internalName = keyboard.InternalName || '';
+                  const name = (keyboard.Name || '').toLowerCase();
+                  
+                  // Match by internal name first (most reliable)
+                  if (internalName === 'Keyboard_vm_tamil_typewriter') {
+                    return true;
+                  }
+                  
+                  // Match by language code
+                  if (langCode.toLowerCase() === 'ta') {
+                    if (internalName.toLowerCase().includes('vm') || 
+                        internalName.toLowerCase().includes('tamil') ||
+                        name.includes('typewriter') ||
+                        name.includes('visual')) {
+                      return true;
+                    }
+                  }
+                  
+                  return false;
+                });
+                
+                if (tamilKeyboard) {
+                  if (attempts < 5) {
+                    setTimeout(waitForKeyboard, 300);
+                  } else {
+                    // Test if the stub is actually ready by trying to activate it
+                    const testKeyboardStub = () => {
+                      try {
+                        // Create a hidden test input to verify activation works
+                        const testInput = document.createElement('input');
+                        testInput.style.position = 'absolute';
+                        testInput.style.left = '-9999px';
+                        document.body.appendChild(testInput);
+                        
+                        keyman.attachToControl(testInput);
+                        testInput.focus();
+                        keyman.setActiveKeyboard(tamilKeyboard.InternalName);
+                        
+                        // If we got here, the stub is registered!
+                        window.tamilKeyboardReady = true;
+                        window.tamilKeyboardId = tamilKeyboard.InternalName;
+                        window.tamilKeyboardLang = tamilKeyboard.LanguageCode || 'ta';
+                        
+                        console.log('✅ Tamil keyboard ready and stub verified:', window.tamilKeyboardId);
+                        console.log('[Keyman] Keyboard details:', {
+                          InternalName: tamilKeyboard.InternalName,
+                          LanguageCode: tamilKeyboard.LanguageCode,
+                          Name: tamilKeyboard.Name
+                        });
+                        
+                        // Clean up test input
+                        keyman.setActiveKeyboard(''); // Deactivate
+                        testInput.blur();
+                        document.body.removeChild(testInput);
+                      } catch (testError) {
+                        console.warn('[Keyman] Stub test failed:', testError.message);
+                        
+                        // If stub isn't ready yet, wait and retry
+                        if (attempts < maxAttempts && testError.message.includes('stub')) {
+                          setTimeout(waitForKeyboard, 500);
+                        } else {
+                          // After max attempts, set it anyway and hope for the best
+                          window.tamilKeyboardReady = true;
+                          window.tamilKeyboardId = tamilKeyboard.InternalName;
+                          window.tamilKeyboardLang = tamilKeyboard.LanguageCode || 'ta';
+                          console.warn('⚠️ Tamil keyboard set despite stub test failure');
+                        }
+                      }
+                    };
+                    
+                    // Wait a bit more before testing to give stub time to register
+                    setTimeout(testKeyboardStub, 500);
+                  }
+                } else {
+                  if (attempts < maxAttempts) {
+                    setTimeout(waitForKeyboard, 150);
+                  } else {
+                    // Last resort: check if global keyboard object exists
+                    if (typeof Keyboard_vm_tamil_typewriter !== 'undefined') {
+                      // Try to manually register it
+                      try {
+                        console.log('[Keyman] 🔄 Attempting manual keyboard registration via KeymanWeb.KR...');
+                        window.KeymanWeb.KR(new Keyboard_vm_tamil_typewriter());
+                        
+                        window.tamilKeyboardReady = true;
+                        window.tamilKeyboardId = 'Keyboard_vm_tamil_typewriter';
+                        window.tamilKeyboardLang = 'ta';
+                        console.log('✅ Tamil keyboard ready (using fallback):', window.tamilKeyboardId);
+                      } catch (e) {
+                        console.error('[Keyman] ❌ Failed to register Tamil keyboard:', e);
+                        window.tamilKeyboardReady = false;
+                      }
+                    } else {
+                      console.error('[Keyman] ❌ Tamil keyboard not found after', maxAttempts, 'attempts');
+                      console.error('[Keyman] Make sure vmtamil.js is loaded and contains Keyboard_vm_tamil_typewriter');
+                      window.tamilKeyboardReady = false;
+                    }
+                  }
+                }
+              } catch (error) {
+                console.error('[Keyman] Error checking for keyboard:', error);
+                if (attempts < maxAttempts) {
+                  setTimeout(waitForKeyboard, 150);
+                } else {
+                  window.tamilKeyboardReady = false;
+                }
+              }
+            }
+            
+            // Give KeymanWeb.KR() a moment to complete before starting to check
+            setTimeout(waitForKeyboard, 500);
+          };
+        
+        // Enable and show OSK globally
+        try {
+          if (keyman.osk) {
+            keyman.osk.enable();
+            console.log('[Keyman] OSK enabled');
+          }
+        } catch (error) {
+          console.warn('[Keyman] Could not enable OSK:', error);
+        }
+        
+        // Start checking if Keyman is ready
+        waitForKeymanReady();
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initKeyman);
+      } else {
+        initKeyman();
+      }
+    })();
+    </script>
+    
+    <!-- Initialize PramukhIME globally BEFORE React loads -->
+    <script>
+      (function() {
+        function initPramukhIME() {
+              if (typeof window.pramukhIME !== 'undefined') {
+            try {
+              console.log('[index.html] Initializing PramukhIME globally...');
+              window.pramukhIME.setLanguage("tamil", "pramukhindic");
+                window.pramukhIMEReady = true;
+            } catch (error) {
+              console.error('[index.html] Error initializing PramukhIME:', error);
+                window.pramukhIMEReady = false;
+              }
+          } else {
+            setTimeout(initPramukhIME, 50);
+          }
+        }
+        
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initPramukhIME);
+        } else {
+          initPramukhIME();
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>

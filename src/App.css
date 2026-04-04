@@ -1,0 +1,39 @@
+.app-container {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.tamil-heading {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-weight: 700;
+  color: #1260ae;
+}
+
+.tamil-heading-title {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-weight: 700;
+  color: #ebeff3;
+}
+.tamil-text {
+  font-family: 'Noto Sans Tamil', sans-serif;
+}
+
+.custom-button {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-weight: 600;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+@media print {
+  body {
+    background: white;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+
+
