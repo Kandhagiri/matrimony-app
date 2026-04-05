@@ -132,7 +132,7 @@ const YearlyReport = ({ onNavigate }) => {
       const houseGrahas = Array.isArray(grahas[houseIndex]) ? grahas[houseIndex] : [];
       return `
         <div style="padding: 2px; min-height: 25px; border: 1px solid #778089; display: flex; flex-direction: column; font-size: 7px;">
-          <div style="color: #778089; margin-bottom: 2px;">${houseIndex + 1}</div>
+          <div style="color: #778089; margin-bottom: 2px;display:none">${houseIndex + 1}</div>
           <div style="display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; flex: 1; align-items: center;">
             ${houseGrahas.length > 0 ? houseGrahas.map(graha =>
         `<b>${getGrahaAbbrev(graha)}</b>`
@@ -208,12 +208,21 @@ const YearlyReport = ({ onNavigate }) => {
             }
             body {
               font-family: 'Noto Sans Tamil', sans-serif;
-              padding: 20px;
+              padding: 0;
+              margin: 0;
+              background: #f5f5f5;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
             }
             @media print {
               @page {
                 size: A4;
-                margin: 0.5in;
+                margin: 0 !important;
+              }
+              body {
+                padding: 0;
+                margin: 0;
+                background: white;
               }
               .page-break {
                 page-break-after: always;
@@ -227,10 +236,14 @@ const YearlyReport = ({ onNavigate }) => {
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              min-height: 100vh;
+              width: 210mm;
+              height: 296mm;
+              padding: 0.5in;
+              box-sizing: border-box;
               text-align: center;
-              padding: 40px;
               background: linear-gradient(to bottom, #f5f5f5, #ffffff);
+              margin: 0 auto;
+              overflow: hidden;
             }
             .title-page h1 {
               font-size: 48px;
@@ -265,6 +278,7 @@ const YearlyReport = ({ onNavigate }) => {
               margin-bottom: 10px;
               padding-bottom: 8px;
               border-bottom: 1px solid #000;
+              font-size: 10px;
             }
             .header h1 {
               font-size: 10px;
@@ -277,8 +291,13 @@ const YearlyReport = ({ onNavigate }) => {
             .page-container {
               display: flex;
               flex-direction: column;
-              height: 10.5in;
+              width: 210mm;
+              height: 296mm;
+              padding: 0.5in;
               box-sizing: border-box;
+              margin: 0 auto;
+              background: white;
+              overflow: hidden;
             }
             .page-container.page-break {
               page-break-after: always;
@@ -366,8 +385,8 @@ const YearlyReport = ({ onNavigate }) => {
           ${profileChunks.map((chunk, chunkIndex) => `
             <div class="page-container ${chunkIndex < profileChunks.length - 1 ? 'page-break' : ''}">
               <div class="header">
-                <h1>தமிழ்நாடு சைவ வேளாளர் சங்கம், தஞ்சாவூர்</h1>
-                <h2>வருடாந்திர பட்டியல் - ${currentYear}</h2>
+                <b>தமிழ்நாடு சைவ வேளாளர் சங்கம், தஞ்சாவூர்</b>
+                <b> | வருடாந்திர பட்டியல் - ${currentYear}</b>
               </div>
               <div class="profile-grid">
                 ${chunk.map((profile, index) => {
@@ -397,14 +416,12 @@ const YearlyReport = ({ onNavigate }) => {
             return `
                 <div class="profile-card">
                   <div class="profile-header">
-                    ${photoHtml}
                     <div>
                       <div class="profile-name">${profile.Name}</div>
                       <div style="font-size: 9px;">ID: ${profile.ProfileID}</div>
                     </div>
                   </div>
                   <div class="profile-details">
-                    <div><span style="color: #666;">வயது:</span> <strong>${age} ஆண்டுகள்</strong></div>
                     <div><span style="color: #666;">பாலினம்:</span> <strong>${profile.Gender}</strong></div>
                     <div><span style="color: #666;">பிறந்த தேதி:</span> <strong>${formatDateForDisplay(profile.DateOfBirth)}</strong></div>
                     ${profile.FatherName ? `<div><span style="color: #666;">தந்தை:</span> <strong>${profile.FatherName}</strong></div>` : ''}

@@ -65,6 +65,16 @@ const AddressPrint = ({ onNavigate }) => {
     const handlePrint = () => {
         const printWindow = window.open('', '_blank');
 
+        const chunkArray = (array, size) => {
+            const chunked = [];
+            for (let i = 0; i < array.length; i += size) {
+                chunked.push(array.slice(i, i + size));
+            }
+            return chunked;
+        };
+
+        const profileChunks = chunkArray(profiles, 18); // 6 rows * 3 cols = 18 items per page
+
         printWindow.document.write(`
       <!DOCTYPE html>
       <html>
@@ -74,44 +84,84 @@ const AddressPrint = ({ onNavigate }) => {
             @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap');
             body {
               font-family: 'Noto Sans Tamil', sans-serif;
-              padding: 20px;
+              padding: 0;
               margin: 0;
+              background: #f5f5f5;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            @media print {
+              @page {
+                size: A4;
+                margin: 0 !important;
+              }
+              body {
+                background: white;
+                margin: 0;
+                padding: 0;
+              }
+              .page-break {
+                page-break-after: always;
+              }
+            }
+            .page-container {
+              width: 210mm;
+              min-height: 296mm;
+              padding: 0.5in;
+              box-sizing: border-box;
+              margin: 0 auto;
+              background: white;
             }
             .grid-container {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
+              display: flex;
+              flex-wrap: wrap;
               gap: 15px;
+              width: 100%;
+              align-content: flex-start;
             }
             .address-card {
               border: 1px dashed #999;
-              padding: 15px;
-              font-size: 14px;
+              padding: 10px;
+              font-size: 13px;
+              display: flex;
+              flex-direction: column;
+              box-sizing: border-box;
+              /* 3 cols. 2 gaps of 15px = 30px total */
+              flex: 0 0 calc((100% - 30px) / 3);
+              width: calc((100% - 30px) / 3);
+              max-width: calc((100% - 30px) / 3);
+              min-width: 0;
               break-inside: avoid;
+              page-break-inside: avoid;
             }
             .father-name {
               font-weight: bold;
-              font-size: 16px;
-              margin-bottom: 8px;
+              font-size: 14px;
+              margin-bottom: 5px;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
             }
             .address-text {
               white-space: pre-wrap;
-              line-height: 1.4;
-            }
-            @media print {
-              @page { margin: 0.5cm; }
-              .no-print { display: none; }
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+              line-height: 1.3;
             }
           </style>
         </head>
         <body>
-          <div class="grid-container">
-            ${profiles.map(p => `
-              <div class="address-card">
-                <div class="father-name">${p.FatherName || ''} (த/பெ)</div>
-                <div class="address-text">${p.Address || ''}</div>
+          ${profileChunks.map((chunk, index) => `
+            <div class="page-container ${index < profileChunks.length - 1 ? 'page-break' : ''}">
+              <div class="grid-container">
+                ${chunk.map(p => `
+                  <div class="address-card">
+                    <div class="father-name">${p.FatherName || ''}      </div>
+                    <div class="address-text">${(p.Address || '').replace(/,\s*/g, ', ')}</div>
+                  </div>
+                `).join('')}
               </div>
-            `).join('')}
-          </div>
+            </div>
+          `).join('')}
         </body>
       </html>
     `);

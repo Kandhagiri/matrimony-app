@@ -267,7 +267,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(11)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               12
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -297,7 +297,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(0)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               1
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -327,7 +327,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(1)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               2
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -357,7 +357,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(2)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               3
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -389,7 +389,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(10)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               11
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -470,7 +470,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(3)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               4
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -502,7 +502,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(9)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               10
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -533,7 +533,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(4)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               5
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -565,7 +565,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(8)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               9
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -595,7 +595,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(7)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               8
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -625,7 +625,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(6)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               7
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -655,7 +655,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
             }}
             onClick={() => handleHouseClick(5)}
           >
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, color: '#778089', fontSize: '0.7rem' }}>
               6
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -675,7 +675,7 @@ const HoroscopeForm = ({ horoscope = {}, onChange, dateOfBirth }) => {
 
       <Dialog open={grahaDialog.open} onClose={() => setGrahaDialog({ open: false, houseIndex: null })} maxWidth="sm" fullWidth>
         <DialogTitle>
-          {grahaDialog.houseIndex !== null ? grahaDialog.houseIndex + 1 : ''} - கிரகங்களைத் தேர்ந்தெடுக்கவும்
+          கிரகங்களைத் தேர்ந்தெடுக்கவும்
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={1} sx={{ mt: 1 }}>

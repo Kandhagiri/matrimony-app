@@ -60,15 +60,60 @@ function createWindow() {
     preloadPath = path.join(__dirname, '../src/main/preload.js');
   }
 
+  // Resolve icon path:
+  // - Prefer a Windows .ico if present (recommended for taskbar & titlebar)
+  // - Fallback to @icon.png
+  // In dev, read from public/.
+  // In production, read alongside the packaged index.html.
+  let iconPath = undefined;
+  try {
+    if (app.isPackaged) {
+      // MAIN_WINDOW_WEBPACK_ENTRY is a file:// URL
+      let htmlDir;
+      if (typeof MAIN_WINDOW_WEBPACK_ENTRY !== 'undefined') {
+        const urlObj = new URL(MAIN_WINDOW_WEBPACK_ENTRY);
+        const htmlPath = decodeURIComponent(urlObj.pathname);
+        htmlDir = path.dirname(htmlPath);
+      } else {
+        htmlDir = path.join(__dirname, '../.webpack/renderer/main_window');
+      }
+      const icoCandidate = path.join(htmlDir, 'icon.ico');
+      const pngCandidate = path.join(htmlDir, '@icon.png');
+      if (fs.existsSync(icoCandidate)) {
+        iconPath = icoCandidate;
+      } else if (fs.existsSync(pngCandidate)) {
+        iconPath = pngCandidate;
+      }
+    } else {
+      // In dev, use files directly from public/
+      const devIco = path.join(__dirname, 'icon.ico');
+      const devPng = path.join(__dirname, '@icon.png');
+      if (fs.existsSync(devIco)) {
+        iconPath = devIco;
+      } else if (fs.existsSync(devPng)) {
+        iconPath = devPng;
+      }
+    }
+    // Normalize for Windows
+    if (iconPath) {
+      iconPath = iconPath.replace(/\\/g, '/');
+    }
+  } catch (e) {
+    iconPath = undefined;
+  }
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    icon: iconPath,
     webPreferences: {
       preload: preloadPath,
       contextIsolation: true,
       nodeIntegration: false,
       allowEval: true,
       webSecurity: false,
+      sandbox: false,
+      enableRemoteModule: false,
     },
     title: 'தமிழ்நாடு சைவ வேளாளர் சங்கம் - திருமண மேலாண்மை',
   });
@@ -280,6 +325,39 @@ ipcMain.handle('delete-image', async (event, imagePath) => {
   } catch (error) {
     console.error('Error deleting image:', error);
     return { success: false, data: null, error: error.message };
+  }
+});
+
+// Utility: Get resource path
+ipcMain.handle('get-resource-path', async (event, relativePath) => {
+  try {
+    // Use app.getAppPath() which works correctly with ASAR
+    const appPath = app.getAppPath();
+    
+    if (app.isPackaged) {
+      // In packaged app, files are in app.asar/.webpack/renderer/
+      // But we need to use a relative path from the HTML file location
+      // The HTML is at .webpack/renderer/main_window/index.html
+      // So js files should be at .webpack/renderer/js/pramukhime.js
+      // Return relative path that works from the HTML file
+      const relativeFromHtml = '../js/' + path.basename(relativePath);
+      return relativeFromHtml.replace(/\\/g, '/');
+    } else {
+      // In development, construct full path
+      const resourcePath = path.join(appPath, '.webpack', 'renderer', relativePath);
+      // Check if file exists, if not try alternative location
+      if (fs.existsSync(resourcePath)) {
+        return `file:///${resourcePath.replace(/\\/g, '/')}`;
+      } else {
+        // Fallback: try from __dirname
+        const altPath = path.join(__dirname, '..', '.webpack', 'renderer', relativePath);
+        return `file:///${altPath.replace(/\\/g, '/')}`;
+      }
+    }
+  } catch (error) {
+    console.error('Error getting resource path:', error);
+    // Return relative path as fallback
+    return relativePath.replace(/\\/g, '/');
   }
 });
 

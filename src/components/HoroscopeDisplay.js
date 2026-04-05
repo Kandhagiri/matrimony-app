@@ -76,8 +76,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
           }}
         >
           {/* Row 1: Houses 12, 1, 2, 3 */}
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.3, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 12
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -90,8 +90,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
               )}
             </Box>
           </Paper>
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 1
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -104,8 +104,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
               )}
             </Box>
           </Paper>
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 2
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -118,9 +118,9 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
               )}
             </Box>
           </Paper>
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
-              வீடு 3
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+              வீடு
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
               {(Array.isArray(grahas[2]) && grahas[2].length > 0) ? (
@@ -134,8 +134,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
           </Paper>
 
           {/* Row 2: House 11, Center (merged), House 4 */}
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 11
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -199,8 +199,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
               </Box>
             </Box>
           </Paper>
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 4
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -215,8 +215,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
           </Paper>
 
           {/* Row 3: House 10, (center already rendered), House 5 */}
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 10
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -230,8 +230,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
             </Box>
           </Paper>
           {/* Center is already rendered above */}
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 5
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -246,8 +246,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
           </Paper>
 
           {/* Row 4: Houses 9, 8, 7, 6 */}
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 9
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -260,8 +260,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
               )}
             </Box>
           </Paper>
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 8
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -274,8 +274,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
               )}
             </Box>
           </Paper>
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 7
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
@@ -288,8 +288,8 @@ const HoroscopeDisplay = ({ horoscope = {} }) => {
               )}
             </Box>
           </Paper>
-          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#1976d2', borderRadius: 1, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="caption" sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
+          <Paper sx={{ p: 1.5, minHeight: 120, border: '2px solid', borderColor: '#848484ff', borderRadius: 0.5, backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="caption" sx={{ display: 'none', mb: 1, fontWeight: 'bold', color: '#1976d2', fontSize: '0.7rem' }}>
               வீடு 6
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
